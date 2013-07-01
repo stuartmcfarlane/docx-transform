@@ -1,0 +1,12 @@
+{
+  "name": "docx-transform",
+  "version": "0.0.0",
+  "description": "stream.Transform that transforms a DOM stream and produced a Word docx stream",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Stuart McFarlane stuart@mcfarlane.nl",
+  "license": "BSD"
+}
