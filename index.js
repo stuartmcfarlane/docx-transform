@@ -10,7 +10,6 @@ var toDocx = function constroctToDocx(options) {
   transform.htmlBuffer = null;
 
   transform._transform = function _transform(chunk, encoding, done) {
-    console.log('transform');
     if (!this.htmlBuffer) {
       this.htmlBuffer = new Buffer(chunk.length);
       chunk.copy(this.htmlBuffer);
@@ -20,17 +19,16 @@ var toDocx = function constroctToDocx(options) {
     done(null, null);
   };
 
-  transform._flush = function _flush(done) {
-    console.log('flush');
-    var htmlAsString = this.htmlBuffer.toString();
-    var htmlAsDom = jsdom.jsdom({
+  transform.html2docx = function html2docx(html) {
+    var dom = jsdom.jsdom({
       url: options.url,
-      html: htmlAsString,
+      html: html,
     });
-    console.log('got dom');
-    var htmlAsDocx = docx.convertContent(htmlAsDom);
-    console.log('got docx', htmlAsDocx);
-    this.push(htmlAsDocx);
+    return html; //docx.convertContent(dom);
+
+  }
+  transform._flush = function _flush(done) {
+    this.push(this.html2docx(this.htmlBuffer.toString()));
     done(null);
   };
   return transform;
