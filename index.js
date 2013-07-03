@@ -1,8 +1,8 @@
 var stream = require('stream');
 var extend = require('extend');
 var Transform = require('stream').Transform;
-var jsdom = require('jsdom');
-var docx = require('./lib/docx.js');
+// var jsdom = require('jsdom');
+// var docx = require('./lib/docx.js');
 
 var toDocx = function constroctToDocx(options) {
   var transform = new Transform({decodeStrings: false});
@@ -20,17 +20,19 @@ var toDocx = function constroctToDocx(options) {
   };
 
   transform.html2docx = function html2docx(html) {
-    var dom = jsdom.jsdom({
-      url: options.url,
-      html: html,
-    });
-    return html; //docx.convertContent(dom);
+    // var dom = jsdom.jsdom({
+    //   url: options.url,
+    //   html: html,
+    // });
+    // return docx.convertContent(dom);
+    return html;
+  };
 
-  }
   transform._flush = function _flush(done) {
     this.push(this.html2docx(this.htmlBuffer.toString()));
     done(null);
   };
+  
   return transform;
 };
 
