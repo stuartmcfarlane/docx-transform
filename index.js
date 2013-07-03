@@ -4,12 +4,14 @@ var Transform = require('stream').Transform;
 // var jsdom = require('jsdom');
 // var docx = require('./lib/docx.js');
 
-var toDocx = function constroctToDocx(options) {
+var toDocx = function constructToDocx(options) {
+  console.log('constructToDocx', options);
   var transform = new Transform({decodeStrings: false});
   transform.options = options;
   transform.htmlBuffer = null;
 
   transform._transform = function _transform(chunk, encoding, done) {
+    console.log('toDoc._transform');
     if (!this.htmlBuffer) {
       this.htmlBuffer = new Buffer(chunk.length);
       chunk.copy(this.htmlBuffer);
@@ -20,6 +22,7 @@ var toDocx = function constroctToDocx(options) {
   };
 
   transform.html2docx = function html2docx(html) {
+    console.log('toDoc.html2docx');
     // var dom = jsdom.jsdom({
     //   url: options.url,
     //   html: html,
@@ -29,10 +32,11 @@ var toDocx = function constroctToDocx(options) {
   };
 
   transform._flush = function _flush(done) {
+    console.log('toDoc._flush');
     this.push(this.html2docx(this.htmlBuffer.toString()));
     done(null);
   };
-  
+
   return transform;
 };
 
